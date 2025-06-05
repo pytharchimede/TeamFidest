@@ -229,34 +229,76 @@ function abrevPoste($poste)
     }
 
     #remplacants {
-      min-height: 60px;
-      padding: 8px 12px;
-      gap: 10px;
+      min-height: 70px;
+      padding: 16px 18px;
+      gap: 16px;
       overflow-x: auto;
       display: flex;
       flex-direction: row;
       align-items: center;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(56, 173, 169, 0.10);
+      border: 2px solid #38ada9;
+      margin-top: 10px;
     }
 
-    @media (max-width: 900px) {
-      .remplacants-bar {
-        max-width: 98vw;
-      }
-
-      #remplacants {
-        max-width: 98vw;
-      }
+    #remplacants .joueur-item {
+      background: #38ada9;
+      color: #fff;
+      border-radius: 50px;
+      padding: 10px 22px 10px 14px;
+      font-size: 1em;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 8px rgba(56, 173, 169, 0.10);
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      cursor: grab;
+      border: 2px solid #fff;
+      position: relative;
     }
 
-    @media (max-width: 600px) {
-      .remplacants-bar {
-        max-width: 100vw;
-      }
+    #remplacants .joueur-item:active {
+      background: #0a3d62;
+      transform: scale(1.03);
+    }
 
-      #remplacants {
-        max-width: 100vw;
-        font-size: 0.9em;
-      }
+    #remplacants .joueur-item i {
+      background: #fff;
+      color: #38ada9;
+      border-radius: 50%;
+      padding: 6px;
+      font-size: 1.1em;
+      margin-right: 6px;
+    }
+
+    #remplacants .joueur-item:hover {
+      background: #26a69a;
+      box-shadow: 0 4px 16px #38ada9aa;
+    }
+
+    #remplacants .joueur-item .remove-btn {
+      display: none;
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #e74c3c;
+      color: #fff;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 1em;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      z-index: 2;
+    }
+
+    #remplacants .joueur-item:hover .remove-btn {
+      display: flex;
     }
 
     .container-formation {
@@ -290,13 +332,18 @@ function abrevPoste($poste)
     }
 
     #remplacants {
-      min-height: 60px;
-      padding: 8px 12px;
-      gap: 10px;
+      min-height: 70px;
+      padding: 16px 18px;
+      gap: 16px;
       overflow-x: auto;
       display: flex;
       flex-direction: row;
       align-items: center;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(56, 173, 169, 0.10);
+      border: 2px solid #38ada9;
+      margin-top: 10px;
     }
 
     @media (max-width: 900px) {
