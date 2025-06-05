@@ -1,5 +1,31 @@
 <?php
 $joueurs = json_decode(file_get_contents("data/joueurs.json"), true);
+
+
+function abrevPoste($poste)
+{
+  $map = [
+    'GARDIEN' => 'G',
+    'DEFENSEUR' => 'D',
+    'DEFENSEUR CENTRAL' => 'DC',
+    'LATERAL DROIT' => 'LD',
+    'LATERAL GAUCHE' => 'LG',
+    'MILIEU' => 'M',
+    'MILIEU CENTRAL' => 'MC',
+    'MILIEU DROIT' => 'MD',
+    'MILIEU GAUCHE' => 'MG',
+    'MILIEU/ATTAQUANT' => 'M/A',
+    'AILIER DROIT' => 'AD',
+    'AILIER GAUCHE' => 'AG',
+    'ATTAQUANT' => 'A',
+    'ATTAQUANT (11) / MILIEU (6)' => 'A/M',
+    'MILIEU (6) ; (8)' => 'M',
+    'LATERAL /DEFENSEUR CENTRAL' => 'LD/DC',
+    'DEFENSEUR/LATERAL DROIT' => 'D/LD'
+  ];
+  $poste = strtoupper(trim($poste));
+  return $map[$poste] ?? $poste;
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -92,6 +118,11 @@ $joueurs = json_decode(file_get_contents("data/joueurs.json"), true);
       top: 220px;
     }
 
+    #milieu-c {
+      left: 165px;
+      top: 220px;
+    }
+
     #milieu-d {
       left: 250px;
       top: 220px;
@@ -127,12 +158,15 @@ $joueurs = json_decode(file_get_contents("data/joueurs.json"), true);
       padding: 0;
       margin: 0;
       width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px 16px;
     }
 
     #banc li {
       background: #38ada9;
       color: #fff;
-      margin-bottom: 10px;
+      margin-bottom: 0;
       padding: 10px 18px;
       border-radius: 8px;
       font-size: 1em;
@@ -199,6 +233,9 @@ $joueurs = json_decode(file_get_contents("data/joueurs.json"), true);
       padding: 8px 12px;
       gap: 10px;
       overflow-x: auto;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
     }
 
     @media (max-width: 900px) {
@@ -257,6 +294,9 @@ $joueurs = json_decode(file_get_contents("data/joueurs.json"), true);
       padding: 8px 12px;
       gap: 10px;
       overflow-x: auto;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
     }
 
     @media (max-width: 900px) {
@@ -301,32 +341,56 @@ $joueurs = json_decode(file_get_contents("data/joueurs.json"), true);
     <!-- Terrain de football -->
     <div>
       <div class="terrain">
-        <div class="zone" id="attaquant" data-poste="Attaquant"><i class="fa-solid fa-futbol"></i><span>Attaquant</span></div>
-        <div class="zone" id="milieu-g" data-poste="Milieu G"><i class="fa-solid fa-person-running"></i><span>Milieu G</span></div>
-        <div class="zone" id="milieu-d" data-poste="Milieu D"><i class="fa-solid fa-person-running"></i><span>Milieu D</span></div>
-        <div class="zone" id="defenseur-g" data-poste="Défenseur G"><i class="fa-solid fa-shield-halved"></i><span>Déf G</span></div>
-        <div class="zone" id="defenseur-c" data-poste="Défenseur C"><i class="fa-solid fa-shield-halved"></i><span>Déf C</span></div>
-        <div class="zone" id="defenseur-d" data-poste="Défenseur D"><i class="fa-solid fa-shield-halved"></i><span>Déf D</span></div>
-        <div class="zone" id="gardien" data-poste="Gardien"><i class="fa-solid fa-handshake"></i><span>Gardien</span></div>
+        <div class="zone" id="attaquant" data-poste="Attaquant"><i class="fa-solid fa-futbol"></i><span>Attaquant</span>
+        </div>
+        <div class="zone" id="milieu-g" data-poste="Milieu G"><i class="fa-solid fa-person-running"></i><span>Milieu
+            G</span></div>
+        <div class="zone" id="milieu-c" data-poste="Milieu C"><i class="fa-solid fa-person-running"></i><span>Milieu
+            C</span></div>
+        <div class="zone" id="milieu-d" data-poste="Milieu D"><i class="fa-solid fa-person-running"></i><span>Milieu
+            D</span></div>
+        <div class="zone" id="defenseur-g" data-poste="Défenseur G"><i class="fa-solid fa-shield-halved"></i><span>Déf
+            G</span></div>
+        <div class="zone" id="defenseur-c" data-poste="Défenseur C"><i class="fa-solid fa-shield-halved"></i><span>Déf
+            C</span></div>
+        <div class="zone" id="defenseur-d" data-poste="Défenseur D"><i class="fa-solid fa-shield-halved"></i><span>Déf
+            D</span></div>
+        <div class="zone" id="gardien" data-poste="Gardien"><i class="fa-solid fa-handshake"></i><span>Gardien</span>
+        </div>
       </div>
       <!-- Zone remplaçants SOUS le terrain -->
       <div class="remplacants-bar">
-        <div class="zone" id="remplacants" style="width: 100%; min-height: 60px; border-radius: 12px; background:rgba(56,173,169,0.12); border:2px dashed #38ada9; display:flex; flex-direction:row; align-items:center; justify-content:flex-start; font-size:1em; color:#38ada9; margin: 0 auto; position:relative;">
-          <i class="fa-solid fa-users"></i>
-          <span style="margin-left:8px; margin-right:16px;">Remplaçants :</span>
+        <div id="remplacants" style="width: 100%; min-height: 60px; border-radius: 12px; background:rgba(56,173,169,0.12); border:2px dashed #38ada9; display:flex; flex-direction:row; align-items:center; justify-content:flex-start; font-size:1em; color:#38ada9; margin: 0 auto; position:relative;">
+          <i class="fa-solid fa-users" style="margin-right:8px;"></i>
+          <span style="margin-right:16px;">Remplaçants :</span>
           <!-- Les joueurs remplaçants seront ajoutés ici par drag & drop -->
         </div>
       </div>
     </div>
     <!-- Banc des joueurs à droite -->
     <div class="banc-container">
-      <h3>Banc des joueurs</h3>
+      <h3>Banc des joueurs <span style="color:#38ada9; font-weight:normal;">(<?php echo count($joueurs); ?>)</span></h3>
       <ul id="banc">
-        <?php foreach ($joueurs as $joueur) echo "<li draggable='true' data-nom=\"" . htmlspecialchars($joueur) . "\" class='joueur-item'><i class='fa-solid fa-user'></i> {$joueur}</li>"; ?>
+        <?php
+        foreach ($joueurs as $joueur) {
+          $nom = htmlspecialchars($joueur['nom']);
+          $poste = !empty($joueur['poste']) ? abrevPoste($joueur['poste']) : '';
+          $posteAff = $poste ? "<span style='color:#0a3d62;font-size:0.9em;font-weight:400;margin-left:8px;'>($poste)</span>" : "";
+
+          // Couleur selon le poste abrégé
+          $color = '';
+          if ($poste === 'G') {
+            $color = "background:#ff7043;color:#fff;"; // orange pour gardien
+          } elseif ($poste === 'A' || strpos($poste, 'A') === 0) {
+            $color = "background:#8e44ad;color:#fff;"; // violet pour attaquant
+          }
+
+          echo "<li draggable='true' data-nom=\"{$nom}\" class='joueur-item' style='{$color}'><i class='fa-solid fa-user'></i> {$nom} {$posteAff}</li>";
+        }
+        ?>
       </ul>
     </div>
   </div>
-
   <script>
     // Drag & drop vanilla JS
     let dragged = null;
@@ -349,28 +413,27 @@ $joueurs = json_decode(file_get_contents("data/joueurs.json"), true);
       zone.addEventListener('drop', function(e) {
         e.preventDefault();
         if (!dragged) return;
-        // Empêcher de placer deux fois le même joueur
-        if (this.querySelector('.joueur-item')) {
-          // Si zone déjà occupée (hors remplaçants), on ne fait rien
-          if (this.id !== "remplacants") return;
-        }
-        // Si déjà sur le terrain, on ne peut pas placer deux fois
         const nom = dragged.getAttribute('data-nom');
+        // Empêcher de placer deux fois le même joueur
         if (document.querySelectorAll('.zone .joueur-item[data-nom="' + nom + '"]').length > 0) return;
-        // Si déjà dans remplaçants, on ne peut pas placer deux fois
-        if (this.id === "remplacants" && document.querySelector('#remplacants .joueur-item[data-nom="' + nom + '"]')) return;
-        // Retirer du banc si vient du banc
-        if (dragged.parentElement.id === "banc") {
-          dragged.parentElement.removeChild(dragged);
-        } else if (dragged.parentElement.classList.contains('zone')) {
-          dragged.parentElement.removeChild(dragged);
-        }
-        // Si zone remplaçants, on ajoute à la suite
         if (this.id === "remplacants") {
+          // Limite à 3 remplaçants (modifiable)
+          if (this.querySelectorAll('.joueur-item').length >= 5) return;
+          // Empêcher doublon dans remplaçants
+          if (this.querySelector('.joueur-item[data-nom="' + nom + '"]')) return;
+          // Retirer du banc ou d'une zone
+          if (dragged.parentElement.id === "banc" || dragged.parentElement.classList.contains('zone')) {
+            dragged.parentElement.removeChild(dragged);
+          }
           this.appendChild(dragged);
         } else {
-          // Sinon, on vide la zone puis on ajoute
-          this.innerHTML = this.innerHTML.split('<span')[0] + '<span>' + this.getAttribute('data-poste') + '</span>';
+          // Pour les postes sur le terrain
+          // Si déjà un joueur sur ce poste, on ne fait rien
+          if (this.querySelector('.joueur-item')) return;
+          // Retirer du banc/remplaçants/zone précédente
+          if (dragged.parentElement.id === "banc" || dragged.parentElement.id === "remplacants" || dragged.parentElement.classList.contains('zone')) {
+            dragged.parentElement.removeChild(dragged);
+          }
           this.appendChild(dragged);
         }
       });
@@ -381,11 +444,29 @@ $joueurs = json_decode(file_get_contents("data/joueurs.json"), true);
     document.getElementById('banc').addEventListener('drop', function(e) {
       e.preventDefault();
       if (!dragged) return;
-      // Empêcher doublons sur le banc
       const nom = dragged.getAttribute('data-nom');
+      // Empêcher doublons sur le banc
       if (document.querySelector('#banc .joueur-item[data-nom="' + nom + '"]')) return;
       // Retirer du terrain/remplaçants
-      if (dragged.parentElement.classList.contains('zone')) {
+      if (dragged.parentElement.classList.contains('zone') || dragged.parentElement.id === "remplacants") {
+        dragged.parentElement.removeChild(dragged);
+      }
+      this.appendChild(dragged);
+    });
+
+    // Gestion du drop sur la zone des remplaçants
+    const remplaZone = document.getElementById('remplacants');
+    remplaZone.addEventListener('dragover', e => e.preventDefault());
+    remplaZone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      if (!dragged) return;
+      const nom = dragged.getAttribute('data-nom');
+      // Limite à 5 remplaçants (modifiable)
+      if (this.querySelectorAll('.joueur-item').length >= 5) return;
+      // Empêcher doublon dans remplaçants
+      if (this.querySelector('.joueur-item[data-nom="' + nom + '"]')) return;
+      // Retirer du banc ou d'une zone
+      if (dragged.parentElement.id === "banc" || dragged.parentElement.classList.contains('zone')) {
         dragged.parentElement.removeChild(dragged);
       }
       this.appendChild(dragged);
