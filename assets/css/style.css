@@ -1,0 +1,89 @@
+body {
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: #f4f6fa;
+  color: #222;
+  margin: 0;
+  padding: 0;
+}
+header {
+  background: #0a3d62;
+  color: #fff;
+  padding: 20px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+nav a:hover {
+  color: #38ada9;
+}
+main {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 30px;
+}
+.terrain {
+  width: 500px;
+  height: 700px;
+  background: #0a3d62;
+  position: relative;
+  margin: 20px auto;
+}
+.zone {
+  position: absolute;
+  width: 100px;
+  height: 30px;
+  background: rgba(255,255,255,0.8);
+  border: 1px solid #000;
+  text-align: center;
+  line-height: 30px;
+}
+#attaquant     { top: 50px; left: 200px; }
+#milieu-g      { top: 150px; left: 120px; }
+#milieu-d      { top: 150px; left: 280px; }
+#defenseur-g   { top: 250px; left: 80px; }
+#defenseur-c   { top: 250px; left: 200px; }
+#defenseur-d   { top: 250px; left: 320px; }
+#gardien       { top: 400px; left: 200px; }
+#banc {
+  list-style: none;
+  padding: 10px;
+}
+#banc li {
+  background: #ccc;
+  margin: 5px;
+  padding: 5px;
+  width: 150px;
+  cursor: move;
+}
+.button {
+  background: #38ada9;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.button:hover {
+  background: #0a3d62;
+  transform: translateY(-2px) scale(1.03);
+}
+@media (max-width: 600px) {
+  main { padding: 10px; }
+  nav { flex-direction: column; gap: 10px; }
+  .terrain { width: 100vw; height: 60vw; min-width: 300px; min-height: 400px; }
+}
